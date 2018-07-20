@@ -1,7 +1,6 @@
 ﻿namespace BinarySearch.Tests
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
 
     using NUnit.Framework;
@@ -97,6 +96,54 @@
 
             int Comparison(int x, int y) => x < y ? -1 :
                                             x > y ?  1 : 0;
+        }
+
+        [Test]
+        public void BinarySearchIComparer_NullArray_ThrowsArgumentNullExc()
+        {
+            Assert.Throws<ArgumentNullException>(() => BinarySearchExtension.BinarySearch(null, 1, Comparer<int>.Create((a, b) => 1)));
+        }
+
+        [Test]
+        public void BinarySearchIComparable_NullArray_ThrowsArgumentNullExc()
+        {
+            Assert.Throws<ArgumentNullException>(() => BinarySearchExtension.BinarySearch(null, 1));
+        }
+
+        [Test]
+        public void BinarySearchDelegate_NullArray_ThrowsArgumentNullExc()
+        {
+            Assert.Throws<ArgumentNullException>(() => BinarySearchExtension.BinarySearch(null, 1, (a, b) => 1));
+        }
+
+        [Test]
+        public void BinarySearchIComparer_NullElement_ThrowsArgumentNullExc()
+        {
+            Assert.Throws<ArgumentNullException>(() => new string[1].BinarySearch((string)null, Comparer<string>.Create((a, b) => 1)));
+        }
+
+        [Test]
+        public void BinarySearchIComparable_NullElement_ThrowsArgumentNullExc()
+        {
+            Assert.Throws<ArgumentNullException>(() => new string[1].BinarySearch(null));
+        }
+
+        [Test]
+        public void BinarySearchDelegate_NullElement_ThrowsArgumentNullExc()
+        {
+            Assert.Throws<ArgumentNullException>(() => new string[1].BinarySearch(null, (a, b) => 1));
+        }
+
+        [Test]
+        public void BinarySearchIComparer_NullComparer_ThrowsArgumentNullExc()
+        {
+            Assert.Throws<ArgumentNullException>(() => new int[1].BinarySearch(1, (IComparer<int>)null));
+        }
+
+        [Test]
+        public void BinarySearchDelegate_NullDelegate_ThrowsArgumentNullExc()
+        {
+            Assert.Throws<ArgumentNullException>(() => new int[1].BinarySearch(1, (Comparison<int>)null));
         }
     }
 }
