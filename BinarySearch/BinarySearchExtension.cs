@@ -8,6 +8,8 @@
     /// </summary>
     public static class BinarySearchExtension
     {
+        #region Public Methods
+
         /// <summary>
         /// Performs binary search over passed collection.
         /// </summary>
@@ -93,6 +95,10 @@
 
             return collection.BSearch(x => comparison(item, x));
         }
+
+        #endregion
+
+        #region Private helpers
 
         /// <summary>
         /// Binary search search.
@@ -182,5 +188,7 @@
                 throw new ArgumentNullException(itemName);
             }
         }
+
+        #endregion
     }
 }
