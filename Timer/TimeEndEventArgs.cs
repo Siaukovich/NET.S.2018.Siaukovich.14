@@ -8,7 +8,7 @@ namespace Timer
     public class TimeEndEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes instance of TimeEndEventArgs class.
+        /// Initializes a new instance of the <see cref="TimeEndEventArgs"/> class. 
         /// </summary>
         public TimeEndEventArgs()
         {
@@ -16,7 +16,7 @@ namespace Timer
         }
         
         /// <summary>
-        /// Time when event have happend.
+        /// Gets time when event have happened.
         /// </summary>
         public DateTime EventTime { get; }
     }

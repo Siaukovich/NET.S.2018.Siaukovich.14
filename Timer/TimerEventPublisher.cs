@@ -11,15 +11,10 @@
         /// <summary>
         /// Timer that invokes event after given delay.
         /// </summary>
-        private readonly Timer _timer;
-
-        /// <summary>
-        /// Event which invokes when time delay ends.
-        /// </summary>
-        public event EventHandler<TimeEndEventArgs> TimeEnd; 
+        private readonly Timer timer;
         
         /// <summary>
-        /// Initializes instance of Timer class.
+        /// Initializes a new instance of the <see cref="TimerEventPublisher"/> class. 
         /// </summary>
         /// <param name="delay">
         /// Delay before event happening in seconds.
@@ -27,15 +22,20 @@
         public TimerEventPublisher(int delay)
         {
             const int MILLISECOND_PER_SECOND = 1000;
-            this._timer = new Timer(MILLISECOND_PER_SECOND * delay) { AutoReset = false };
-            this._timer.Elapsed += 
+            this.timer = new Timer(MILLISECOND_PER_SECOND * delay) { AutoReset = false };
+            this.timer.Elapsed += 
                 (sender, args) => OnTimeEnd(new TimeEndEventArgs());
         }
 
         /// <summary>
+        /// Event which invokes when time delay ends.
+        /// </summary>
+        public event EventHandler<TimeEndEventArgs> TimeEnd;
+
+        /// <summary>
         /// Starts timers.
         /// </summary>
-        public void StartTimer() => this._timer.Start();
+        public void StartTimer() => this.timer.Start();
 
         /// <summary>
         /// Invokes TimeEnd event.

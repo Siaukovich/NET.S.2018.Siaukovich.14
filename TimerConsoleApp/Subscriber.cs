@@ -8,34 +8,37 @@ namespace TimerConsoleApp
         /// <summary>
         /// Subscribers unique id.
         /// </summary>
-        private readonly int _id;
+        private readonly int id;
         
         /// <summary>
         /// Time when event to which this subscriber subscribed have happened.
+        /// Set to null if event does not happened.
         /// </summary>
-        private DateTime? _eventTime;
+        private DateTime? eventTime;
         
         /// <summary>
-        /// Initializes new subscriber instance.
+        /// Initializes a new instance of the <see cref="Subscriber"/> class. 
         /// </summary>
-        /// <param name="id"></param>
-        public Subscriber(int id) => this._id = id;
+        /// <param name="id">
+        /// Unique id of the new subscriber.
+        /// </param>
+        public Subscriber(int id) => this.id = id;
 
         /// <summary>
-        /// Registeres this subsriber to passed publisher's TimeEnd event.
+        /// Registers this subscriber to passed publisher's TimeEnd event.
         /// </summary>
         /// <param name="publisher">
         /// Publisher to which TimeEnd event this subscriber will register.
         /// </param>
-        public void Register(TimerEventPublisher publisher) => publisher.TimeEnd += HandleTimeEndEvent;
+        public void Register(TimerEventPublisher publisher) => publisher.TimeEnd += this.HandleTimeEndEvent;
 
         /// <summary>
-        /// Unregisteres this subsriber from passed publisher's TimeEnd event.
+        /// Unregisters this subscriber from passed publisher's TimeEnd event.
         /// </summary>
         /// <param name="publisher">
         /// Publisher from which TimeEnd event this subscriber will unregister.
         /// </param>
-        public void Unregister(TimerEventPublisher publisher) => publisher.TimeEnd -= HandleTimeEndEvent;
+        public void Unregister(TimerEventPublisher publisher) => publisher.TimeEnd -= this.HandleTimeEndEvent;
 
         /// <summary>
         /// Get status of this subscriber as string.
@@ -45,23 +48,23 @@ namespace TimerConsoleApp
         /// </returns>
         public string GetEventStatus()
         {
-            if (_eventTime != null)
+            if (this.eventTime != null)
             {
-                return $"Event have happend in subscriber #{this._id} at {this._eventTime}";
+                return $"Event have happend in subscriber #{this.id} at {this.eventTime}";
             }
             
-            return $"Event have NOT happend in subscriber #{this._id}";
+            return $"Event have NOT happend in subscriber #{this.id}";
         }
 
         /// <summary>
         /// Handler for TimeEnd event.
         /// </summary>
         /// <param name="sender">
-        /// Object that coused an event.
+        /// Object that caused an event.
         /// </param>
         /// <param name="eventArgs">
         /// Event's arguments.
         /// </param>
-        private void HandleTimeEndEvent(object sender, TimeEndEventArgs eventArgs) => this._eventTime = eventArgs.EventTime;
+        private void HandleTimeEndEvent(object sender, TimeEndEventArgs eventArgs) => this.eventTime = eventArgs.EventTime;
     }
 }
