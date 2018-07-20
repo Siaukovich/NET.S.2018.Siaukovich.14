@@ -9,6 +9,11 @@ namespace TimerConsoleApp
         /// Subscribers unique id.
         /// </summary>
         private readonly int id;
+
+        /// <summary>
+        /// Publisher's message.
+        /// </summary>
+        private string publisherMessage;
         
         /// <summary>
         /// Time when event to which this subscriber subscribed have happened.
@@ -50,7 +55,8 @@ namespace TimerConsoleApp
         {
             if (this.eventTime != null)
             {
-                return $"Event have happend in subscriber #{this.id} at {this.eventTime}";
+                return $"Event have happend in subscriber #{this.id} at {this.eventTime}. " + 
+                       Environment.NewLine + $"Publisher's message: {this.publisherMessage}";
             }
             
             return $"Event have NOT happend in subscriber #{this.id}";
@@ -65,6 +71,10 @@ namespace TimerConsoleApp
         /// <param name="eventArgs">
         /// Event's arguments.
         /// </param>
-        private void HandleTimeEndEvent(object sender, TimeEndEventArgs eventArgs) => this.eventTime = eventArgs.EventTime;
+        private void HandleTimeEndEvent(object sender, TimeEndEventArgs eventArgs)
+        {
+            this.eventTime = eventArgs.EventTime;
+            this.publisherMessage = eventArgs.Message;
+        }
     }
 }

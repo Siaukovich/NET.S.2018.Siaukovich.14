@@ -24,7 +24,7 @@
             const int MILLISECOND_PER_SECOND = 1000;
             this.timer = new Timer(MILLISECOND_PER_SECOND * delay) { AutoReset = false };
             this.timer.Elapsed += 
-                (sender, args) => OnTimeEnd(new TimeEndEventArgs());
+                (sender, args) => this.OnTimeEnd(new TimeEndEventArgs("Time is over!"));
         }
 
         /// <summary>
