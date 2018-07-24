@@ -11,32 +11,6 @@
         #region Public Methods
 
         /// <summary>
-        /// Performs binary search over passed collection.
-        /// </summary>
-        /// <typeparam name="T">
-        /// Type of searched object.
-        /// </typeparam>
-        /// <param name="collection">
-        /// Collection that needs to be searched.
-        /// </param>
-        /// <param name="item">
-        /// Item that needs to be found in collection.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// True if collection contains passed item, false otherwise.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if collection or item is null.
-        /// </exception>
-        public static bool BinarySearch<T>(this IList<T> collection, T item) where T : IComparable<T>
-        {
-            ThrowForNullListOrItem(collection, item);
-
-            return collection.BSearch(item.CompareTo);
-        }
-
-        /// <summary>
         /// Performs binary search over passed collection using passed comparer.
         /// </summary>
         /// <param name="collection">
@@ -58,10 +32,19 @@
         /// <exception cref="ArgumentNullException">
         /// Thrown if collection, item or comparer is null.
         /// </exception>
-        public static bool BinarySearch<T>(this IList<T> collection, T item, IComparer<T> comparer)
+        public static int? BinarySearch<T>(this IList<T> collection, T item, IComparer<T> comparer = null)
         {
             ThrowForNullListOrItem(collection, item);
-            ThrowForNull(comparer, nameof(comparer));
+
+            if (comparer == null)
+            {
+                if (!(item is IComparable<T>))
+                {
+                    throw new InvalidOperationException("Cannot compare items");
+                }
+
+                comparer = Comparer<T>.Default;
+            }
 
             return collection.BSearch(x => comparer.Compare(item, x));
         }
@@ -88,7 +71,7 @@
         /// <exception cref="ArgumentNullException">
         /// Thrown if collection, item or comparison is null.
         /// </exception>
-        public static bool BinarySearch<T>(this IList<T> collection, T item, Comparison<T> comparison)
+        public static int? BinarySearch<T>(this IList<T> collection, T item, Comparison<T> comparison)
         {
             ThrowForNullListOrItem(collection, item);
             ThrowForNull(comparison, nameof(comparison));
@@ -119,7 +102,7 @@
         /// The <see cref="bool"/>.
         /// True if collection contains passed item, false otherwise.
         /// </returns>
-        private static bool BSearch<T>(this IList<T> collection, Func<T, int> compareWithItem)
+        private static int? BSearch<T>(this IList<T> collection, Func<T, int> compareWithItem)
         {
             int leftIndex = 0;
             int rightIndex = collection.Count - 1;
@@ -138,11 +121,11 @@
                 }
                 else
                 {
-                    return true;
+                    return middleIndex;
                 }
             }
 
-            return false;
+            return null;
         }
 
         /// <summary>

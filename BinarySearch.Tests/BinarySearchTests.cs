@@ -21,7 +21,7 @@
             {
                 int[] array = Enumerable.Range(0, SIZE).Select(v => rng.Next(v)).OrderBy(v => v).ToArray();
 
-                if (!array.BinarySearch(array[rng.Next(0, array.Length)]))
+                if (array.BinarySearch(array[rng.Next(0, array.Length)]) == null)
                 {
                     Assert.Fail($"Test #{i} failed.");
                 }
@@ -37,7 +37,7 @@
             {
                 int[] array = Enumerable.Range(0, SIZE).Select(v => rng.Next(-SIZE, SIZE)).OrderBy(v => v).ToArray();
 
-                if (array.BinarySearch(-2 * SIZE))
+                if (array.BinarySearch(-2 * SIZE) != null)
                 {
                     Assert.Fail($"Test #{i} failed.");
                 }
@@ -53,7 +53,7 @@
             {
                 int[] array = Enumerable.Range(0, SIZE).Select(v => rng.Next(-SIZE, SIZE)).OrderBy(v => v).ToArray();
 
-                if (array.BinarySearch(2 * SIZE))
+                if (array.BinarySearch(2 * SIZE) != null)
                 {
                     Assert.Fail($"Test #{i} failed.");
                 }
@@ -69,7 +69,7 @@
             {
                 int[] array = Enumerable.Range(0, SIZE).Select(v => rng.Next(v)).OrderBy(v => v).ToArray();
 
-                if (!array.BinarySearch(array[rng.Next(0, array.Length)], Comparison))
+                if (array.BinarySearch(array[rng.Next(0, array.Length)], Comparison) == null)
                 {
                     Assert.Fail($"Test #{i} failed.");
                 }
@@ -88,7 +88,7 @@
             {
                 int[] array = Enumerable.Range(0, SIZE).Select(v => rng.Next(v)).OrderBy(v => v).ToArray();
 
-                if (!array.BinarySearch(array[rng.Next(0, array.Length)], Comparer<int>.Create(Comparison)))
+                if (array.BinarySearch(array[rng.Next(0, array.Length)], Comparer<int>.Create(Comparison)) == null)
                 {
                     Assert.Fail($"Test #{i} failed.");
                 }
@@ -135,9 +135,9 @@
         }
 
         [Test]
-        public void BinarySearchIComparer_NullComparer_ThrowsArgumentNullExc()
+        public void BinarySearchIComparer_NoComparer_ThrowsInvalidOperationExc()
         {
-            Assert.Throws<ArgumentNullException>(() => new int[1].BinarySearch(1, (IComparer<int>)null));
+            Assert.Throws<InvalidOperationException>(() => new object[0].BinarySearch(1));
         }
 
         [Test]
